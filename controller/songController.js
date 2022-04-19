@@ -1,13 +1,15 @@
 const Song = require("../model/song");
 const User = require("../model/user");
+const authenticationController = require("./authenticationController");
 
 
 function userValidity(req){
   let userid = req.header('userid');
-  userid = userid.split('|')[0];
-  var user;
   try {
-    return User.getUser(userid);
+    const user = User.getUser(userid.split('|')[0]);
+    const isLoggedin = authenticationController.getLoggedinUsers().find(x => x === userid);
+    if (!isLoggedin) throw new Error("Authentication Failure");
+    return user;
   }catch (error){
     console.log(error);
     throw new Error("Authentication Failure");

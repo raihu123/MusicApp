@@ -1,4 +1,5 @@
 const Song = require("./song");
+let users = [];
 
 class User {
 
@@ -8,13 +9,23 @@ class User {
     this.playlist = [];
   }
 
+  setLoginTime(time){
+    this.loginTime = time;
+  }
+
   static getUser(username){
-    const index = this.users.findIndex(x => x.username === username);
+    const index = users.findIndex(x => x.username === username);
     if (index > -1) {
+      console.log("Validation Success!");
       return users[index];
     }else {
       throw new Error("Unable to find the user!");
     }
+  }
+
+  save() {
+    users.push(this);
+    return this;
   }
 
   fetchPlaylist() {
@@ -44,5 +55,12 @@ class User {
 
 }
 
-let users = [new User("k", "123"), new User("t", "1234")];
+const user1 = new User("k", "123").save();
+const user2 = new User("t", "1234").save();
+user1.addToPlaylist(Song.fetchAll()[4]);
+user1.addToPlaylist(Song.fetchAll()[0]);
+user1.addToPlaylist(Song.fetchAll()[7]);
+user1.addToPlaylist(Song.fetchAll()[1]);
+
+
 module.exports = User;

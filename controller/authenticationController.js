@@ -12,6 +12,7 @@ exports.login = (req, res, next) => {
   if (authentication){
     const userid = user.name + '|' + new Date().toLocaleString();
     loggedInUsers.push(userid);
+    // User.getUser()
     res.status(200).json({
       "authentication" : "success",
       "userid" : userid
@@ -22,6 +23,10 @@ exports.login = (req, res, next) => {
     throw new Error("Authentication Failure");
   }
 
+}
+
+exports.getLoggedinUsers = () => {
+  return loggedInUsers;
 }
 
 exports.logout = (req, res, next) => {
