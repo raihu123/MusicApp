@@ -19,7 +19,7 @@ exports.login = (req, res, next) => {
     console.log("Backend Login Success");
   }else {
     console.log("Backend Login Failed");
-    res.status(401).json({"authentication" : "failed"});
+    throw new Error("Authentication Failure");
   }
 
 }
