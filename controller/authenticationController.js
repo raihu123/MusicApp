@@ -16,7 +16,9 @@ exports.login = (req, res, next) => {
       "authentication" : "success",
       "userid" : userid
     });
+    console.log("Backend Login Success");
   }else {
+    console.log("Backend Login Failed");
     res.status(401).json({"authentication" : "failed"});
   }
 
@@ -29,11 +31,11 @@ exports.logout = (req, res, next) => {
   console.log(index);
   if (index > -1) {
     loggedInUsers.splice(index, 1);
-    console.log(loggedInUsers);
+    console.log("Backend Logout Success");
     res.status(200).json({"msg" : "logout success"});
   }else{
     loggedInUsers = [];
-    console.log(loggedInUsers);
+    console.log("Backend Logout Failed");
     res.status(500).json({"msg" : "something went wrong!"});
   }
 }
