@@ -33,12 +33,12 @@ class User {
   }
 
   addToPlaylist(song) {
-    this.playlist.push(song);
+    this.playlist.push(Song.getSong(song));
     return this.playlist;
   }
 
   removeFromPlaylist(song) {
-    const index = this.playlist.findIndex(x => x === song);
+    const index = this.playlist.findIndex(x => x.id === song);
     if (index > -1) {
       this.playlist.splice(index,1);
     }else {
@@ -57,10 +57,10 @@ class User {
 
 const user1 = new User("k", "123").save();
 const user2 = new User("t", "1234").save();
-user1.addToPlaylist(Song.fetchAll()[4]);
-user1.addToPlaylist(Song.fetchAll()[0]);
-user1.addToPlaylist(Song.fetchAll()[7]);
-user1.addToPlaylist(Song.fetchAll()[1]);
+user1.addToPlaylist(Song.fetchAll()[4].id);
+user1.addToPlaylist(Song.fetchAll()[0].id);
+user1.addToPlaylist(Song.fetchAll()[7].id);
+user1.addToPlaylist(Song.fetchAll()[1].id);
 
 
 module.exports = User;

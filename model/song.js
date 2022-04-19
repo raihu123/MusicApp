@@ -9,7 +9,7 @@ class Song{
   }
 
   static getSong(songID) {
-    const index = songList.findIndex(x => x.songID === songID);
+    const index = songList.findIndex(x => x.id === songID);
     if (index > -1) {
       return songList[index];
     }else {

@@ -32,6 +32,7 @@ app.use((req, res, next) => {
 });
 
 app.use((err, req, res, next) => {
+  console.log(err);
   if (err.message === 'NOT Found') {
     res.status(404).json({error: err.message});
   } else if (err.message === 'Authentication Failure') {
