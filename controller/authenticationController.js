@@ -5,12 +5,14 @@ let loggedInUsers = [];
 
 
 exports.login = (req, res, next) => {
-  const user = basicAuth(req);
-  console.log(user.name, user.pass);
+  // const user = basicAuth(req);
+  const username = req.header('username');
+  const password = req.header('password');
+  // console.log(user.name, user.pass);
   const allUser = User.fetchAll();
-  const authentication = allUser.find(x => x.username === user.name && x.password === user.pass) ;
+  const authentication = allUser.find(x => x.username === username && x.password === password) ;
   if (authentication){
-    const userid = user.name + '|' + new Date().toLocaleString();
+    const userid = username + '|' + new Date().toLocaleString();
     loggedInUsers.push(userid);
     // User.getUser()
     res.status(200).json({
