@@ -246,7 +246,7 @@ function addButton(hasPlay, myList, index, tr) {
 
 
 
-function myFunction() {
+function searchSongList() {
   let input, filter, table, tr, td, i, txtValue, div_tbl;
   input = document.getElementById("myInput");
   filter = input.value.toUpperCase();
