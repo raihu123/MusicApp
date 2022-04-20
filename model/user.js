@@ -33,6 +33,9 @@ class User {
   }
 
   addToPlaylist(song) {
+    if(this.playlist.find(x=>x.id === song)){
+      return this.playlist;
+    }
     this.playlist.push(Song.getSong(song));
     return this.playlist;
   }

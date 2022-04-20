@@ -108,7 +108,6 @@ async function addToPlaylist(songID) {
   let playList = [];
   await fetch(`http://localhost:3000/song-list/song/${songID}/`, requestOptions)
     .then(response => response.json())
-    .then(result => constructTable(result, 'play_list'))
     .catch(error => console.log('error', error));
   return playList;
 }
@@ -126,7 +125,6 @@ async function deleteSongFromPlayList(songID) {
   let playList = [];
   await fetch(`http://localhost:3000/song-list/playlist/${songID}/`, requestOptions)
     .then(response => response.json())
-    // .then(result => constructTable(result, 'play_list'))
     .catch(error => console.log('error', error));
   return playList;
 }
@@ -216,6 +214,11 @@ function addButton(hasPlay, myList, index, tr) {
     });
   }else {
     btn.innerHTML = "Add Song";
+    btn.addEventListener('click', function (event){
+      event.preventDefault();
+      addToPlaylist(myList[index]['id']);
+      getPlayList();
+    });
   }
   tabCell.appendChild(btn);
   if (hasPlay) {
