@@ -1,6 +1,8 @@
 window.onload = function (event) {
   // alert('hi');
   document.getElementById("logout-btn").style.display = "none";
+  let elem = document.getElementById('play_list');
+  elem.innerHTML = '';
 }
 
 var userid = null;
@@ -33,9 +35,8 @@ async function validate() {
     document.getElementById("login-form").style.display = "none";
     document.getElementById("logout-btn").style.display = "block";
     userid = response.userid;
-    let songList = getSongList();
-    let playList = getPlayList();
-    let tr = document.querySelectorAll("table tbody tr");
+    getSongList();
+    getPlayList();
 
   }
 }
@@ -73,7 +74,18 @@ async function getPlayList() {
   let playList = [];
   await fetch("http://localhost:3000/song-list/playlist", requestOptions)
     .then(response => response.json())
-    .then(data => constructTable(data, 'play_list', true))
+    .then(data => {
+      let elem = document.getElementById('play_list');
+      if (data.length > 0) {
+        elem.innerHTML='';
+
+      } else {
+        console.log('inside else');
+        // elem.removeChild(elem.childNodes);
+        elem.innerHTM = 'You have no Song on your Playlist';
+      }
+      constructTable(data, 'play_list', true);
+    })
     .catch(error => console.log('error', error));
   return playList;
 }
@@ -172,14 +184,17 @@ function constructTable(myList, selector, hasPlay) {
     th.innerHTML = col[i];
     tr.appendChild(th);
   }
-  th = document.createElement("th");
-  th.innerHTML = 'action';
-  tr.append(th);
-  if (hasPlay) {
+  if (myList.length > 0){
     th = document.createElement("th");
-    th.innerHTML = 'playSong';
+    th.innerHTML = 'action';
     tr.append(th);
+    if (hasPlay) {
+      th = document.createElement("th");
+      th.innerHTML = 'playSong';
+      tr.append(th);
+    }
   }
+
 
   // add json data to the table as rows.
   for (let i = 0; i < myList.length; i++) {
@@ -207,14 +222,14 @@ function addButton(hasPlay, myList, index, tr) {
   let btn = document.createElement("button");
   if (hasPlay) {
     btn.innerHTML = 'remove Song';
-    btn.addEventListener('click', function (event){
+    btn.addEventListener('click', function (event) {
       event.preventDefault();
       deleteSongFromPlayList(myList[index]['id']);
       getPlayList();
     });
-  }else {
+  } else {
     btn.innerHTML = "Add Song";
-    btn.addEventListener('click', function (event){
+    btn.addEventListener('click', function (event) {
       event.preventDefault();
       addToPlaylist(myList[index]['id']);
       getPlayList();
@@ -228,3 +243,26 @@ function addButton(hasPlay, myList, index, tr) {
     tabCell.appendChild(btn);
   }
 }
+
+
+
+function myFunction() {
+  let input, filter, table, tr, td, i, txtValue, div_tbl;
+  input = document.getElementById("myInput");
+  filter = input.value.toUpperCase();
+  div_tbl = document.getElementById('song_list');
+  table = div_tbl.childNodes[0];
+  tr = table.getElementsByTagName("tr");
+  for (i = 0; i < tr.length; i++) {
+    td = tr[i].getElementsByTagName("td")[0];
+    if (td) {
+      txtValue = td.textContent || td.innerText;
+      if (txtValue.toUpperCase().indexOf(filter) > -1) {
+        tr[i].style.display = "";
+      } else {
+        tr[i].style.display = "none";
+      }
+    }
+  }
+}
+

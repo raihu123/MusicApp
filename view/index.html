@@ -11,6 +11,10 @@
 
 <div class="topnav">
   <div id="logo-left"><img src="../resources/logo.png" alt="logo" width="50" height="50"></div>
+
+  <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for Songs.." title="Type in a name">
+
+
   <div class="login-container">
     <form id=login-form>
       <input type="text" placeholder="Username" id="username">
@@ -34,7 +38,7 @@
 </div>
 
 
-<div class="tables" align="center">
+<div class="tables" id="play_list_div" align="center">
   <h3> Playlist</h3>
   <div id="play_list"></div>
 </div>
