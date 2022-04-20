@@ -4,6 +4,7 @@ window.onload = function (event) {
 }
 
 var userid = null;
+
 async function validate() {
   const username = document.getElementById("username").value;
   const password = document.getElementById("password").value;
@@ -33,7 +34,7 @@ async function validate() {
     document.getElementById("logout-btn").style.display = "block";
     userid = response.userid;
     let songList = getSongList();
-    let playList =  getPlayList();
+    let playList = getPlayList();
     let tr = document.querySelectorAll("table tbody tr");
 
     // Array.from(tr).forEach(function(trArray) {
@@ -48,7 +49,7 @@ async function validate() {
   }
 }
 
-async function getSongList(){
+async function getSongList() {
   var myHeaders = new Headers();
   myHeaders.append("userid", userid);
 
@@ -61,7 +62,7 @@ async function getSongList(){
   await fetch("http://localhost:3000/song-list/song", requestOptions)
     .then(response => response.json())
     .then(data => {
-      constructTable(data,'song_list');
+      constructTable(data, 'song_list');
     })
     .catch(error => console.log('error', error));
   // console.log(songList.);
@@ -69,7 +70,7 @@ async function getSongList(){
 }
 
 
-async function getPlayList(){
+async function getPlayList() {
   var myHeaders = new Headers();
   myHeaders.append("userid", userid);
 
@@ -81,13 +82,13 @@ async function getPlayList(){
   let playList = [];
   await fetch("http://localhost:3000/song-list/playlist", requestOptions)
     .then(response => response.json())
-    .then(data => constructTable(data,'play_list',true))
+    .then(data => constructTable(data, 'play_list', true))
     .catch(error => console.log('error', error));
   return playList;
 }
 
 
-async function getSong(songID){
+async function getSong(songID) {
   var myHeaders = new Headers();
   myHeaders.append("userid", userid);
 
@@ -104,7 +105,7 @@ async function getSong(songID){
   return song[0];
 }
 
-async function addToPlaylist(songID){
+async function addToPlaylist(songID) {
   var myHeaders = new Headers();
   myHeaders.append("userid", userid);
 
@@ -122,7 +123,7 @@ async function addToPlaylist(songID){
 }
 
 
-async function deleteSongFromPlayList(songID){
+async function deleteSongFromPlayList(songID) {
   var myHeaders = new Headers();
   myHeaders.append("userid", userid);
 
@@ -138,7 +139,6 @@ async function deleteSongFromPlayList(songID){
     .catch(error => console.log('error', error));
   return playList;
 }
-
 
 
 async function logout() {
@@ -162,11 +162,10 @@ async function logout() {
 }
 
 
-
-function constructTable(myList, selector,hasPlay){
-  var col = [];
-  for (var i = 0; i < myList.length; i++) {
-    for (var key in myList[i]) {
+function constructTable(myList, selector, hasPlay) {
+  let col = [];
+  for (let i = 0; i < myList.length; i++) {
+    for (let key in myList[i]) {
       if (col.indexOf(key) === -1) {
         col.push(key);
       }
@@ -174,20 +173,20 @@ function constructTable(myList, selector,hasPlay){
   }
 
   // Create a table.
-  var table = document.createElement("table");
+  let table = document.createElement("table");
 
   // Create table header row using the extracted headers above.
-  var tr = table.insertRow(-1);                   // table row.
+  let tr = table.insertRow(-1);                   // table row.
 
-  for (let i = 0; i < col.length-2; i++) {
-    var th = document.createElement("th");      // table header.
+  for (let i = 0; i < col.length - 2; i++) {
+    let th = document.createElement("th");      // table header.
     th.innerHTML = col[i];
     tr.appendChild(th);
   }
   th = document.createElement("th");
   th.innerHTML = 'action';
   tr.append(th);
-  if(hasPlay){
+  if (hasPlay) {
     th = document.createElement("th");
     th.innerHTML = 'playSong';
     tr.append(th);
@@ -198,26 +197,35 @@ function constructTable(myList, selector,hasPlay){
 
     tr = table.insertRow(-1);
 
-    for (var j = 0; j < col.length-2; j++) {
+    for (let j = 0; j < col.length - 2; j++) {
       console.log(j);
       var tabCell = tr.insertCell(-1);
       tabCell.innerHTML = myList[i][col[j]];
     }
-    var tabCell = tr.insertCell(-1);
-    let btn = document.createElement("button");
-    btn.innerHTML = "Add Song";
-    if (hasPlay){ btn.innerHTML = 'remove Song';}
-    tabCell.appendChild(btn);
-    if (hasPlay){
-      var tabCell = tr.insertCell(-1);
-      let btn = document.createElement("button");
-      btn.innerHTML = "Play Song";
-      tabCell.appendChild(btn);
-    }
+
+    addButton(hasPlay, myList, i, tr);
   }
 
   // Now, add the newly created table with json data, to a container.
-  var divShowData = document.getElementById(selector);
+  let divShowData = document.getElementById(selector);
   divShowData.innerHTML = "";
   divShowData.appendChild(table);
+}
+
+
+function addButton(hasPlay, myList, index, tr) {
+  let tabCell = tr.insertCell(-1);
+  let btn = document.createElement("button");
+  if (hasPlay) {
+    btn.innerHTML = 'remove Song';
+  }else {
+    btn.innerHTML = "Add Song";
+  }
+  tabCell.appendChild(btn);
+  if (hasPlay) {
+    let tabCell = tr.insertCell(-1);
+    let btn = document.createElement("button");
+    btn.innerHTML = "Play Song";
+    tabCell.appendChild(btn);
+  }
 }
