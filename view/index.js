@@ -37,15 +37,6 @@ async function validate() {
     let playList = getPlayList();
     let tr = document.querySelectorAll("table tbody tr");
 
-    // Array.from(tr).forEach(function(trArray) {
-    //   let button = document.createElement("button");
-    //   let td = document.createElement("td");
-    //   button.innerText = "buy";
-    //   button.className = "btn_buy";
-    //   td.append(button);
-    //   trArray.append(td);
-    // });
-
   }
 }
 
@@ -117,7 +108,7 @@ async function addToPlaylist(songID) {
   let playList = [];
   await fetch(`http://localhost:3000/song-list/song/${songID}/`, requestOptions)
     .then(response => response.json())
-    .then(result => result.forEach(x => playList.push(x)))
+    .then(result => constructTable(result, 'play_list'))
     .catch(error => console.log('error', error));
   return playList;
 }
@@ -133,9 +124,9 @@ async function deleteSongFromPlayList(songID) {
     redirect: 'follow'
   };
   let playList = [];
-  await fetch(`http://localhost:3000/song-list/song/${songID}/`, requestOptions)
+  await fetch(`http://localhost:3000/song-list/playlist/${songID}/`, requestOptions)
     .then(response => response.json())
-    .then(result => result.forEach(x => playList.push(x)))
+    // .then(result => constructTable(result, 'play_list'))
     .catch(error => console.log('error', error));
   return playList;
 }
@@ -218,6 +209,11 @@ function addButton(hasPlay, myList, index, tr) {
   let btn = document.createElement("button");
   if (hasPlay) {
     btn.innerHTML = 'remove Song';
+    btn.addEventListener('click', function (event){
+      event.preventDefault();
+      deleteSongFromPlayList(myList[index]['id']);
+      getPlayList();
+    });
   }else {
     btn.innerHTML = "Add Song";
   }

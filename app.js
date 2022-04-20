@@ -16,15 +16,6 @@ app.use(express.json());
 // app.use(express.urlencoded({extended: true}));
 
 
-//
-// const thirtyMin = 1000 * 60 * 30;
-// app.use(sessions({
-//   secret: "thisismysecrctekeyfhrgfgrfrty84fwir767",
-//   saveUninitialized:true,
-//   cookie: { maxAge: thirtyMin },
-//   resave: false
-// }));
-
 app.use('/authentication', authenticationRouter);
 app.use('/song-list', songsRouter);
 
@@ -34,6 +25,7 @@ app.use((req, res, next) => {
 });
 
 app.use((err, req, res, next) => {
+  console.log(err);
   console.log(err);
   if (err.message === 'NOT Found') {
     res.status(404).json({error: err.message});
