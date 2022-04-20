@@ -449,19 +449,34 @@ function seekUpdate() {
   }
 }
 
-function shuffle(){
+var shuffleEnabled = false;
+
+function shuffle() {
   const rand = Math.floor(Math.random() * (track_list.length));
   loadTrack(rand);
+  if (shuffleEnabled) {
+    document.getElementById('shuffle').innerHTML = '<i class="fa-duotone fa-shuffle fa-2x"></i>';
+  }else{
+    document.getElementById('shuffle').innerHTML = '<i class="fa-thin fa-shuffle fa-2x"></i>';
+  }
 }
+
+var loopCounter = 0;
 var loopEnabled = false;
-function loop(){
+
+function loop() {
   curr_track.loop = !loopEnabled;
   loopEnabled = !loopEnabled;
+  loopCounter ++;
+  if (loopCounter%3 === 0) document.getElementById('repeat').innerHTML = '<i class="fa-thin fa-repeat fa-2x"></i>';
+  else if(loopCounter%3 === 1) document.getElementById('repeat').innerHTML = '<i class="fa-duotone fa-repeat fa-2x"></i>';
+  else document.getElementById('repeat').innerHTML = '<i class="fa-duotone fa-repeat-1 fa-2x"></i>';
+
 }
 
 
 // Load the first track in the tracklist
-loadTrack(track_index);
+// loadTrack(track_index);
 
 
 
