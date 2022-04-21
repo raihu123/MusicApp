@@ -1,9 +1,12 @@
 'use strict';
 const express = require("express");
 const cors = require("cors");
+const mustacheExpress = require("mustache-express");
+const path = require('path');
 
 const authenticationRouter = require("./routes/authentication")
 const songsRouter = require("./routes/song");
+const defaultRouter = require("./routes/default");
 
 const app = express();
 const corsOptions ={
@@ -18,6 +21,7 @@ app.use(express.json());
 
 app.use('/authentication', authenticationRouter);
 app.use('/song-list', songsRouter);
+
 
 
 app.use((req, res, next) => {

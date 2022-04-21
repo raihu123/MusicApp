@@ -1,0 +1,33 @@
+{
+  "name": "musicapp",
+  "version": "1.0.0",
+  "description": "Wap Project New Music App",
+  "main": "app.js",
+  "scripts": {
+    "start": "nodemon app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/raihu123/wapp_musicapp.git"
+  },
+  "author": "Rayhan Rashid",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/raihu123/wapp_musicapp/issues"
+  },
+  "homepage": "https://github.com/raihu123/wapp_musicapp#readme",
+  "dependencies": {
+    "basic-auth": "^2.0.1",
+    "cookie-parser": "^1.4.6",
+    "express": "^4.17.3",
+    "express-session": "^1.17.2",
+    "mustache-express": "^1.3.2",
+    "nodemon": "^2.0.15",
+    "sass": "^1.50.1",
+    "scss": "^0.2.4"
+  },
+  "devDependencies": {
+    "cors": "^2.8.5"
+  }
+}
